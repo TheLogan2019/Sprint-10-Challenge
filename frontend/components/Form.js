@@ -2,12 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { inputChange, postQuiz } from "../state/action-creators";
 
-export function Form(props) {
-  const { postQuiz, question, trueAnswer, falseAnswer } = props;
+const getIsInvalid = (value = "") => value?.trim().length === 0;
 
-  const onChange = (evt) => ({
-    [evt.target.getAttribute("name")]: evt.target.value,
-  });
+export function Form(props) {
+  const { postQuiz, question, trueAnswer, falseAnswer, inputChange } = props;
+
+  const onChange = (evt) => {
+    inputChange({
+      [evt.target.getAttribute("name")]: evt.target.value,
+    });
+  };
+
   const onSubmit = (evt) => {
     evt.preventDefault();
     postQuiz(question, trueAnswer, falseAnswer);
@@ -41,23 +46,25 @@ export function Form(props) {
         placeholder="Enter false answer"
       />
 
-      {question !== "" && trueAnswer !== "" && falseAnswer !== "" ? (
-        <button id="submitNewQuizBtn">Submit new quiz</button>
-      ) : (
-        <button id="submitNewQuizBtn" disabled>
-          Submit new quiz
-        </button>
-      )}
+      <button
+        id="submitNewQuizBtn"
+        disabled={
+          getIsInvalid(question) ||
+          getIsInvalid(trueAnswer) ||
+          getIsInvalid(falseAnswer)
+        }
+      >
+        Submit new quiz
+      </button>
     </form>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    form: state.form,
-    question: state.form.question,
-    trueAnswer: state.form.trueAnswer,
-    falseAnswer: state.form.falseAnswer,
+    question: state.form.newQuestion,
+    trueAnswer: state.form.newTrueAnswer,
+    falseAnswer: state.form.newFalseAnswer,
   };
 };
 
