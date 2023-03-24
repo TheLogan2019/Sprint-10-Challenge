@@ -62,7 +62,7 @@ The endpoints needed for this project are the following:
 
 In order to complete this project, you must fix the following modules:
 
-- [reducer.js](frontend/state/reducer.js)
+- [reducer.js](frontend/state/reducer.js) ✔️
 - [action-creators.js](frontend/state/action-creators.js)
 - [Message.js](frontend/components/Message.js)
 - [Wheel.js](frontend/components/Wheel.js)
